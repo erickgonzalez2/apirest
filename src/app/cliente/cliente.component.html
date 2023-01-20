@@ -1,0 +1,45 @@
+
+<div class="card border-primary mb-3" >
+<div class="card-header">Vista general Clientes</div>
+<div class="card-body text-primary">
+    <h5 class="card-title">Listado de clientes</h5>
+
+
+    <table class="table table-bordered table-striped" *ngIf="clientes.length > 0">
+        <thead>
+            <tr>            
+                <th>id</th>
+                <th>nombre</th>
+                <th>apellido</th>
+                <th>email</th>
+                <th>createAt</th>
+            </tr>
+        </thead>
+
+    <tbody>
+        <tr *ngFor="let item of clientes;">
+            <td>{{item.id}}</td>
+            <td>{{item.nombre}}</td>
+            <td>{{item.apellido}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.createAt}}</td>
+            <td>
+                <button type="button" name="button" class="btn btn-primary" [routerLink]="['/navegacion/formulario',item.id]">Editar</button>
+            </td>
+            <td>
+                <button type="button" name="button" class="btn btn-danger" (click)="delete(item)">Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+
+        
+    </table>
+
+    <div *ngIf="clientes.length == 0" class="noRegistros">
+        No hay registros en la tabla
+    </div>
+
+
+
+</div>
+</div>

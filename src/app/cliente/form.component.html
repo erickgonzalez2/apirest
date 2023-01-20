@@ -1,0 +1,82 @@
+<div class="card bg-dark text-white">
+    <div class="card-header">{{titulo}}</div>
+
+    <div class="card-body">
+
+        <form ngNativeValidate>
+
+            <div class="form-group row">
+
+                <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="cliente.nombre" name="nombre" #nombre="ngModel"
+                        [ngClass]="{'is-valid': !nombre.invalid, 'is-invalid': nombre.invalid}" required>
+
+
+                    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                        <div *ngIf="nombre.errors">
+                            Introduzca un nombre válido por favor
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <label for="apellido" class="col-form-label col-sm-2">Apellido</label>
+
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="cliente.apellido" name="apellido"
+                        #apellido="ngModel" required
+                        [ngClass]="{'is-valid': !apellido.invalid, 'is-invalid': apellido.invalid}">
+
+                        <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
+                            <div *ngIf="apellido.errors">
+                                Introduzca un apellido válido por favor
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+
+                <label for="email" class="col-form-label col-sm-2">Email</label>
+                <div class="col-sm-6">
+                    <input type="email" class="form-control" [(ngModel)]="cliente.email" name="email" #email="ngModel"
+                        required
+                        pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                        [ngClass]="{'is-valid': !email.invalid, 'is-invalid': email.invalid}">
+
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                            <div *ngIf="email.errors">
+                                Veifique que el formato coincida
+                            </div>
+                        </div>
+
+                        
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-sm-6">
+                    <button class="btn btn-primary" role="button" (click)="create()"
+                        *ngIf="!cliente.id else elseBlock">Crear</button>
+
+                    <ng-template #elseBlock>
+                        <button class="btn btn-primary" role="button" (click)="update()">Actualizar</button>
+                    </ng-template>
+
+                </div>
+            </div>
+
+
+        </form>
+
+
+
+
+    </div>
+
+</div>
