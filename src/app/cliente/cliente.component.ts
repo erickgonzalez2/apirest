@@ -1,13 +1,12 @@
 
-import { Component, OnInit } from '@angular/core';
-import {Cliente} from './cliente'
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Cliente } from './cliente'
 import { ClienteService } from './cliente.service';
-import { CLIENTES } from './clientes.json';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { NavegacionComponent } from '../navegacion/navegacion.component';
+import { tap } from 'rxjs/operators';
+import { ActivatedRoute, Params } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ModalService } from './detalle/modal.service';
+import { Region } from './region';
 
 
 
@@ -16,29 +15,39 @@ import Swal from 'sweetalert2';
   templateUrl: './cliente.component.html',
   styleUrls: ['./cliente.component.sass']
 })
-export class ClienteComponent implements OnInit {
+export class ClienteComponent implements OnInit, OnChanges {
 
-clientes : Cliente[];
-
-
+  clientes: Cliente[];
+  totalPaginas: number;
+  paginas: number[];
+  paginaActual: number;
+  paginaSiguiente: number;
+  region : Region;
+  clienteSeleccionado: Cliente;
 
 
   constructor(private clienteService: ClienteService,
-   ){
-    
+    private _activatedRoute: ActivatedRoute,
+    private modalService: ModalService) {
+
     this.clientes = new Array();
+    this.totalPaginas = 0;
+    this.paginas = new Array();
+    this.paginaActual = 0;
+    this.paginaSiguiente = 0;
+
   }
 
   ngOnInit(): void {
-   
-    this.clienteService.getClientes().subscribe(
-      clientes => this.clientes = clientes
-    );
-    
+    this.cargarClientes();
+  }
+
+  ngOnChanges(): void {
+
   }
 
 
-  delete( cliente : Cliente) : void {
+  delete(cliente: Cliente): void {
 
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -47,7 +56,7 @@ clientes : Cliente[];
       },
       buttonsStyling: false
     })
-    
+
     swalWithBootstrapButtons.fire({
       title: 'Mensaje',
       text: "¿Desea eliminar al cliente?",
@@ -70,16 +79,47 @@ clientes : Cliente[];
 
           }
         )
-   
+
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
       ) {
-       
+
       }
     })
-    
+
   }
+
+
+  cargarClientes(): void {
+
+    this._activatedRoute.params.subscribe(params => {
+
+      let page = params['page'];
+      this.paginaActual = +page;
+      this.paginaSiguiente = (this.paginaActual + 1);
+      if (page) {
+        this.clienteService.getClientes(page).pipe(
+          tap(response => {
+            this.totalPaginas = response.totalPages
+
+            this.paginas = Array(this.totalPaginas).fill(0).map((x, i) => i);
+
+          })
+
+        )
+          .subscribe(
+            response => this.clientes = response.content as Cliente[]
+          );
+      }
+    })
+  }
+
+  abrirModal(cliente: Cliente) {
+    this.clienteSeleccionado = cliente;
+    this.modalService.abrirModal();
+  }
+
 
 }
 

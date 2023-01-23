@@ -38,6 +38,23 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+
+                <label for="createAt" class="col-form-label col-sm-2">Fecha</label>
+
+                <div class="col-sm-6">
+                    <input type="date" class="form-control" [(ngModel)]="cliente.createAt" name="createAt"
+                        #createAt="ngModel" required
+                        [ngClass]="{'is-valid': !createAt.invalid, 'is-invalid': createAt.invalid}">
+
+                        <div *ngIf="createAt.invalid && (createAt.dirty || createAt.touched)">
+                            <div *ngIf="createAt.errors">
+                                Introduzca una fecha válida por favor
+                            </div>
+                        </div>
+                </div>
+            </div>
+
 
             <div class="form-group row">
 
@@ -55,6 +72,18 @@
                         </div>
 
                         
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <label for="region" class="col-form-label col-sm-2">Region</label>
+
+                <div class="col-sm-6">
+                    <select [compareWith]="compararRegion" class="form-control" [(ngModel)]="cliente.region" name="createAt">
+                        <option [ngValue]="undefined">----Seleccionar region------</option>
+                        <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+                    </select>           
                 </div>
             </div>
 

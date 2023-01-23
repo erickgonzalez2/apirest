@@ -1,45 +1,78 @@
+<detalle-cliente [cliente]="clienteSeleccionado" *ngIf="clienteSeleccionado"></detalle-cliente>
+<div class="card border-primary mb-3">
+    <div class="card-header">Vista general Clientes</div>
+    <div class="card-body text-primary">
+        <h5 class="card-title">Listado de clientes</h5>
 
-<div class="card border-primary mb-3" >
-<div class="card-header">Vista general Clientes</div>
-<div class="card-body text-primary">
-    <h5 class="card-title">Listado de clientes</h5>
 
+        <table class="table table-bordered table-striped" *ngIf="clientes.length > 0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>CreateAt</th>
+                    <th>Region</th>
+                    <th>Foto</th>
+                </tr>
+            </thead>
 
-    <table class="table table-bordered table-striped" *ngIf="clientes.length > 0">
-        <thead>
-            <tr>            
-                <th>id</th>
-                <th>nombre</th>
-                <th>apellido</th>
-                <th>email</th>
-                <th>createAt</th>
-            </tr>
-        </thead>
+            <tbody>
+                <tr *ngFor="let item of clientes;">
+                    <td><button  (click)="abrirModal(item)"
+                        type="button" name="button" class="btn btn-success">{{item.id}}</button></td>
+                    <td>{{item.nombre}}</td>
+                    <td>{{item.apellido | uppercase}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.createAt}}</td>
+                    <td>{{item.region.nombre}}</td>
+                    <td> <img src="http://localhost:8080/api/uploads/img/{{item.foto}}"alt="" class="img-td"></td>
+                    <td>
+                        <button type="button" name="button" class="btn btn-primary"
+                            [routerLink]="['/navegacion/formulario',item.id]">Editar</button>
+                    </td>
+                    <td>
+                        <button type="button" name="button" class="btn btn-danger"
+                            (click)="delete(item)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>            
 
-    <tbody>
-        <tr *ngFor="let item of clientes;">
-            <td>{{item.id}}</td>
-            <td>{{item.nombre}}</td>
-            <td>{{item.apellido}}</td>
-            <td>{{item.email}}</td>
-            <td>{{item.createAt}}</td>
-            <td>
-                <button type="button" name="button" class="btn btn-primary" [routerLink]="['/navegacion/formulario',item.id]">Editar</button>
-            </td>
-            <td>
-                <button type="button" name="button" class="btn btn-danger" (click)="delete(item)">Eliminar</button>
-            </td>
-        </tr>
-    </tbody>
+        </table>
 
-        
-    </table>
+        <ul class="pagination" style="overflow: scroll;">
 
-    <div *ngIf="clientes.length == 0" class="noRegistros">
-        No hay registros en la tabla
+            <li class="page-item" *ngIf="paginaActual >0">
+                <span class="page-link" [routerLink]="['/navegacion','dashboard','pagina',paginaActual-1]">
+                    &laquo;
+                </span>
+            </li>
+
+            <li class="page-item">
+                <span class="page-link" [routerLink]="['/navegacion','dashboard','pagina',0]">
+                    Primera
+                </span>
+            </li>
+
+            <li class="page-item" *ngFor="let pagina of paginas">
+                <span class="page-link"
+                    [routerLink]="['/navegacion','dashboard','pagina',pagina]">{{pagina+1}}</span>
+            </li>
+
+            <li class="page-item" *ngIf="paginaActual < totalPaginas-1">
+                <span class="page-link" [routerLink]="['/navegacion','dashboard','pagina',paginaActual+1]">
+                    &raquo;
+                </span>
+            </li>
+
+            <li class="page-item">
+                <span class="page-link" [routerLink]="['/navegacion','dashboard','pagina',totalPaginas-1]">
+                    Ultima
+                </span>
+            </li>
+
+            
+        </ul>
     </div>
-
-
-
-</div>
 </div>

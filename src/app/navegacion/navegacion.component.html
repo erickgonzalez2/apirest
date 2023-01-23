@@ -5,8 +5,8 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>    
-      <a mat-list-item [routerLink]="['/navegacion','dashboard']">Dashboard</a>
-      <a mat-list-item [routerLink]="['/navegacion','formulario']">Formulario Clientes</a>
+      <a mat-list-item [routerLink]="['/navegacion/dashboard/pagina/0']">Dashboard</a>
+      <a mat-list-item [routerLink]="['/navegacion/formulario']">Formulario Clientes</a>
       
     </mat-nav-list>
   </mat-sidenav>
@@ -23,8 +23,7 @@
       <span>Proyecto</span>
     </mat-toolbar>
     
-    <app-cliente *ngIf="componente == 'dashboard'"></app-cliente>
-    <app-form *ngIf="componente == 'formulario' "></app-form>
+    <router-outlet></router-outlet>
     
 
   </mat-sidenav-content>

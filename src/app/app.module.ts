@@ -9,7 +9,7 @@ import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInputModule} from '@angular/material/input'
 
 import  {HttpClientModule} from '@angular/common/http';
-
+import { LOCALE_ID } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
@@ -23,22 +23,26 @@ import { ClienteComponent } from './cliente/cliente.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-
+import { formatDate, registerLocaleData } from "@angular/common";
+import localEs from '@angular/common/locales/es-MX'
 import { LoginComponent } from './login/login.component';
 import { NavegacionComponent} from './navegacion/navegacion.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ClienteService } from './cliente/cliente.service';
 import { FormComponent } from './cliente/form.component';
 import { FormsModule } from '@angular/forms';
+import { DetalleComponent } from './cliente/detalle/detalle.component';
+
+registerLocaleData(localEs,'es-MX');
 
 @NgModule({
   declarations: [
      AppComponent,
      ClienteComponent,
-     
      LoginComponent,
      NavegacionComponent,
-     FormComponent
+     FormComponent,
+     DetalleComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,7 @@ import { FormsModule } from '@angular/forms';
     MatSortModule,
     FormsModule
   ],
-  providers: [ClienteService],
+  providers: [ClienteService, {provide: LOCALE_ID, useValue: 'es-MX' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

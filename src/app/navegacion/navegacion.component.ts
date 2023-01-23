@@ -11,7 +11,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 })
 export class NavegacionComponent implements OnInit {
 
-  public componente : string;
+  
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -20,16 +20,14 @@ export class NavegacionComponent implements OnInit {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-    private _route: ActivatedRoute
+  
     ) {
 
-      this.componente = '';
+      
     
   }
   ngOnInit(): void {
-    this._route.params.subscribe((params : Params)=>{
-      this.componente = params['componente'];    
-    })
+   
 
     
     
