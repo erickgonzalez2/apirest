@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-
+import { ApiService } from '../api.service';
+import { Credentials } from './credentials';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +11,15 @@ import { Router } from '@angular/router'
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private router: Router){
+
+  creds : Credentials = {
+    email: '',
+    password: ''
+  }
+
+  constructor(
+    private router: Router,
+    private apiService: ApiService){
     
   }
   ngOnInit(): void {
@@ -19,10 +29,12 @@ export class LoginComponent implements OnInit {
 
   hide = true;
 
-
-  ingresar():void{
-    this.router.navigate(['/navegacion']);    
-  
+  login(){
+        
+    this.apiService.login(this.creds)
+    .subscribe(response => {
+      this.router.navigate(['/navegacion']);      
+    })
   }
 
 }

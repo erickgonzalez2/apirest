@@ -8,7 +8,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInputModule} from '@angular/material/input'
 
-import  {HttpClientModule} from '@angular/common/http';
+import  {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { LOCALE_ID } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -32,6 +32,7 @@ import { ClienteService } from './cliente/cliente.service';
 import { FormComponent } from './cliente/form.component';
 import { FormsModule } from '@angular/forms';
 import { DetalleComponent } from './cliente/detalle/detalle.component';
+import { AuthInterceptor } from './helpers/auth.interceptor';
 
 registerLocaleData(localEs,'es-MX');
 
@@ -66,7 +67,10 @@ registerLocaleData(localEs,'es-MX');
     MatSortModule,
     FormsModule
   ],
-  providers: [ClienteService, {provide: LOCALE_ID, useValue: 'es-MX' }],
+  providers: [ClienteService, 
+    {provide: LOCALE_ID, useValue: 'es-MX' },
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor , multi : true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

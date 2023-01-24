@@ -136,4 +136,9 @@ subirFoto(archivo : File , id : number) : Observable <HttpEvent<{}>>{
         return this.http.get<Region[]>(this.url+'/regiones');
     }
 
+
+    getToken(){
+        return localStorage.getItem('token');
+      }
+
 }
