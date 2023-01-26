@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInputModule} from '@angular/material/input'
-
 import  {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { LOCALE_ID } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,9 +29,12 @@ import { NavegacionComponent} from './navegacion/navegacion.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ClienteService } from './cliente/cliente.service';
 import { FormComponent } from './cliente/form.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule  } from '@angular/forms';
 import { DetalleComponent } from './cliente/detalle/detalle.component';
 import { AuthInterceptor } from './helpers/auth.interceptor';
+import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
+import { FacturasComponent } from './facturas/facturas.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'
 
 registerLocaleData(localEs,'es-MX');
 
@@ -44,6 +46,8 @@ registerLocaleData(localEs,'es-MX');
      NavegacionComponent,
      FormComponent,
      DetalleComponent,
+     DetalleFacturaComponent,
+     FacturasComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,9 @@ registerLocaleData(localEs,'es-MX');
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    FormsModule
+    FormsModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
   providers: [ClienteService, 
     {provide: LOCALE_ID, useValue: 'es-MX' },

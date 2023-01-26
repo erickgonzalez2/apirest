@@ -1,0 +1,83 @@
+<div class="card bg-light">
+    <div class="card-header">{{titulo}} </div>
+    <div class="card-body">
+        <h4 class="card-title">
+            <a [routerLink]="rutaActual" class="btn btn-light btn-xs">&laquo; Volver</a>
+        </h4>
+
+        <form>
+
+            <div class="form-group-row" *ngIf="cliente">
+                <label for="cliente" class="col-sm-2 col-form-label">Cliente</label>
+                <div class="col-sm-6">
+                    <h4>{{cliente.nombre}} {{cliente.apellido}}</h4>
+                </div>
+            </div>
+
+
+            <div class="form-group-row">
+                <label for="descripcion" class="col-sm-2 col-form-label">Descripcion</label>
+                <div class="col-sm-6">
+                    <input type="text" name="descripcion" class="form-control" [(ngModel)]="descripcion">
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label for="observacion" class="col-sm-2 col-form-label">Observacion</label>
+                <div class="col-sm-6">
+                    <textarea type="text" class="form-control" name="observacion" [(ngModel)]="observacion"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group-row my-5">
+
+                <mat-form-field  appearance="fill">
+                    <mat-label>Añadir producto</mat-label>
+                    <input type="text" placeholder="Añadir producto" aria-label="Productos" matInput [formControl]="autocompleteControl"
+                        [matAutocomplete]="auto"  >
+                    <mat-autocomplete #auto="matAutocomplete"  [displayWith]="mostrarNombre" (optionSelected)="seleccionarProducto($event)">
+                        <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto">
+                            {{producto.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div class="alert alert-info my-4" *ngIf="factura.items.length==0">No hay líneas asignadas en esta factura</div>
+
+            <table class="table table-striped tabler-hover table-sm" *ngIf="factura.items.length > 0">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of factura.items" >
+                        <td *ngIf="item.producto.nombre">{{item.producto.nombre}}</td>
+                        <td *ngIf="item.producto.precio">{{item.producto.precio}}</td>
+                        <td *ngIf="item.cantidad"><input type="number" value="{{item.cantidad}}" class="form-control col-sm-4" (change)="actualizarCantidad(item.producto.id, $event)"></td>
+                        <td *ngIf="item.importe">{{item.calcularImporte()}}</td>
+                        <td><button class="btn btn-danger btn-sm" type="button" (click)="eliminarItem(item.producto.id)" >Eliminar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="float-right">Gran Total : {{factura.calcularGranTotal()}}</h3>
+
+
+            <div class="form-group-row" style="margin-top: 10px;">
+                <div class="col-sm-6">
+                    <input type="submit" class="form-control" value="Crear Factura" class="btn btn-secondary"
+                        style="margin-top: 10px;" (click)="create()">
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>

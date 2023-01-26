@@ -86,7 +86,7 @@ export class ClienteService{
 
 
     update(cliente : Cliente) : Observable<Cliente>{
-        return this.http.put<Cliente>(this.url+'/'+cliente.id, cliente, {headers: this.httpHeaders}).pipe(
+        return this.http.put<Cliente>(this.url+'/id/'+cliente.id, cliente, {headers: this.httpHeaders}).pipe(
             catchError(e => {
 
                 if(e.status == 400){

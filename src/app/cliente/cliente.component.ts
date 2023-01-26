@@ -3,7 +3,7 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Cliente } from './cliente'
 import { ClienteService } from './cliente.service';
 import { tap } from 'rxjs/operators';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ModalService } from './detalle/modal.service';
 import { Region } from './region';
@@ -28,7 +28,8 @@ export class ClienteComponent implements OnInit, OnChanges {
 
   constructor(private clienteService: ClienteService,
     private _activatedRoute: ActivatedRoute,
-    private modalService: ModalService) {
+    public modalService: ModalService,
+    private router : Router) {
 
     this.clientes = new Array();
     this.totalPaginas = 0;
@@ -40,6 +41,7 @@ export class ClienteComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.cargarClientes();
+    
   }
 
   ngOnChanges(): void {
@@ -94,7 +96,7 @@ export class ClienteComponent implements OnInit, OnChanges {
   cargarClientes(): void {
 
     this._activatedRoute.params.subscribe(params => {
-
+      localStorage.setItem('ruta',this.router.url);
       let page = params['page'];
       this.paginaActual = +page;
       this.paginaSiguiente = (this.paginaActual + 1);
@@ -109,7 +111,7 @@ export class ClienteComponent implements OnInit, OnChanges {
 
         )
           .subscribe(
-            response => this.clientes = response.content as Cliente[]
+            response => this.clientes = response.content as Cliente[]            
           );
       }
     })

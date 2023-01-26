@@ -12,7 +12,8 @@
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
-                    <th>CreateAt</th>
+                    <th>Fecha</th>
+                    <th>Crear Factura</th>
                     <th>Region</th>
                     <th>Foto</th>
                 </tr>
@@ -26,8 +27,9 @@
                     <td>{{item.apellido | uppercase}}</td>
                     <td>{{item.email}}</td>
                     <td>{{item.createAt}}</td>
+                    <td><button type="button" class="btn btn-success btn-sm" [routerLink]="['/navegacion/facturasForm',item.id]">Crear</button></td>
                     <td>{{item.region.nombre}}</td>
-                    <td> <img src="http://localhost:8080/api/uploads/img/{{item.foto}}"alt="" class="img-td"></td>
+                    <td><img *ngIf="item.foto" src="http://localhost:8080/api/uploads/img/{{item.foto}}"alt="" class="img-td"></td>
                     <td>
                         <button type="button" name="button" class="btn btn-primary"
                             [routerLink]="['/navegacion/formulario',item.id]">Editar</button>

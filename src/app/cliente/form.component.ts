@@ -4,6 +4,7 @@ import { ClienteService } from './cliente.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Region } from './region';
+import { Factura } from '../facturas/models/factura';
 
 @Component({
   selector: 'app-form',
@@ -16,13 +17,13 @@ export class FormComponent implements OnInit{
   titulo = "Formulario";
   regiones : Region[];
   rg : Region;
+  factura : Factura;
   private errores : string[];
 
   constructor(private clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
     private _router : Router
-    ) {
-
+    ) {      
       this.errores = new Array();
       this.cliente = new Cliente(0,'','','','','',this.rg)
      }
@@ -44,6 +45,8 @@ cargarCliente():void{
   })
   this.clienteService.getRegiones().subscribe(
     regiones => this.regiones = regiones);
+    
+    
 }
 
  create() : void {
@@ -64,10 +67,12 @@ cargarCliente():void{
 
 
   update() : void {
+    this.cliente.facturas = this.cliente.facturas;
+    
     this.clienteService.update(this.cliente)
     .subscribe( cliente => {
       Swal.fire('Mensaje','Cliente actualizado con exito', 'success')
-    })
+    }) 
   }
 
   compararRegion(o1:Region,o2:Region){

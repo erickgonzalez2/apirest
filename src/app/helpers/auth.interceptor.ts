@@ -7,17 +7,17 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ClienteService } from '../cliente/cliente.service';
+import { FacturasService } from '../facturas/services/facturas.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(
-    private clienteService : ClienteService
+  constructor(   
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-    const token = this.clienteService.getToken();
+    const token = localStorage.getItem('token');
 
     if(token){
       const cloned = request.clone({
